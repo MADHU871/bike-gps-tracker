@@ -1,16 +1,18 @@
-app.get("/location", async (req, res) => {
+const mongoose = require("mongoose");
 
-    const gps = getNextLocation();
-
-    const savedLocation =
-    await Location.create({
-        bikeId: "BIKE001",
-        latitude: gps.latitude,
-        longitude: gps.longitude,
-        speed: gps.speed,
-        battery: 90
-    });
-
-    res.json(savedLocation);
-
+const LocationSchema = new mongoose.Schema({
+  bikeId: String,
+  latitude: Number,
+  longitude: Number,
+  speed: Number,
+  battery: Number,
+  timestamp: {
+    type: Date,
+    default: Date.now
+  }
 });
+
+module.exports = mongoose.model(
+  "Location",
+  LocationSchema
+);
