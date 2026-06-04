@@ -12,7 +12,6 @@ stages {
 
     stage('Checkout') {
         steps {
-            echo 'Checking out source code...'
             checkout scm
         }
     }
@@ -60,9 +59,9 @@ stages {
         steps {
             sh '''
             docker run -d \
-              --name ${CONTAINER_NAME} \
-              -p 3000:3000 \
-              ${IMAGE_NAME}:latest
+            --name ${CONTAINER_NAME} \
+            -p 3000:3000 \
+            ${IMAGE_NAME}:latest
             '''
         }
     }
