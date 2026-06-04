@@ -19,10 +19,19 @@ stages {
     stage('Verify Environment') {
         steps {
             sh '''
+            echo "Current Directory:"
             pwd
+
+            echo "Workspace Files:"
             ls -la
+
+            echo "Node Version:"
             node --version
+
+            echo "NPM Version:"
             npm --version
+
+            echo "Docker Version:"
             docker --version
             '''
         }
@@ -41,7 +50,7 @@ stages {
         steps {
             sh '''
             cd backend
-            docker build -t ${IMAGE_NAME}:latest .
+            docker build -t bike-gps-tracker:latest .
             '''
         }
     }
@@ -49,8 +58,8 @@ stages {
     stage('Stop Existing Container') {
         steps {
             sh '''
-            docker stop ${CONTAINER_NAME} || true
-            docker rm ${CONTAINER_NAME} || true
+            docker stop bike-gps-container || true
+            docker rm bike-gps-container || true
             '''
         }
     }
@@ -59,9 +68,9 @@ stages {
         steps {
             sh '''
             docker run -d \
-            --name ${CONTAINER_NAME} \
+            --name bike-gps-container \
             -p 3000:3000 \
-            ${IMAGE_NAME}:latest
+            bike-gps-tracker:latest
             '''
         }
     }
